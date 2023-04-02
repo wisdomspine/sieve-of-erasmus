@@ -1,0 +1,39 @@
+<div>
+  <h1>Sieve of Erasmus</h1>
+  <div class="spacer-1"></div>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <input type="number" formControlName="min" matInput placeholder="min" />
+      <mat-error *ngIf="form.controls.min.hasError('required')">
+        Min value is required
+      </mat-error>
+      <mat-error *ngIf="form.controls.min.hasError('min')">
+        Supply a value greater or equal to 2
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input type="number" formControlName="max" matInput placeholder="max" />
+      <mat-error *ngIf="form.controls.max.hasError('required')">
+        Max value is required
+      </mat-error>
+      <mat-error *ngIf="form.controls.max.hasError('min')">
+        Supply a value greater or equal to
+        {{ form.controls.max.getError("min")?.required }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="spacer-2"></div>
+    <!-- submit button -->
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="form.invalid"
+    >
+      <span> Calculate </span>
+    </button>
+  </form>
+</div>
+
+<soe-footer></soe-footer>

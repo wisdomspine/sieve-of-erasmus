@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  min-height: 100vh;
+  > div {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    .spacer-1 {
+      height: 80px;
+      flex-shrink: 1;
+    }
+    form {
+      display: flex;
+      flex-flow: column nowrap;
+      min-width: min(100%, 320px);
+
+      mat-form-field {
+        margin-bottom: 24px;
+      }
+      .spacer-2 {
+        height: 32px;
+        flex-shrink: 1;
+      }
+      button {
+        padding: 24px 64px;
+        align-self: center;
+        border-radius: 8px;
+      }
+    }
+  }
+  soe-footer {
+    align-self: stretch;
+  }
+}

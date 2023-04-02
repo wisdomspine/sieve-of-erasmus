@@ -1,0 +1,12 @@
+// Define global typographic styles
+@use "@angular/material" as mat;
+$typography-config: mat.define-typography-config(
+  $font-family: '"Inter", sans-serif',
+  $headline-5:
+    mat.define-typography-level(
+      $font-weight: 600,
+      $font-size: 2.8em,
+      $line-height: 1.2,
+      $letter-spacing: normal,
+    ),
+);

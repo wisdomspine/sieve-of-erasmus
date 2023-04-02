@@ -1,0 +1,42 @@
+@use "sass:math";
+$div-height: 64px;
+$div-width: 64px;
+:host {
+  position: absolute;
+  width: $div-width;
+  height: $div-height;
+  top: calc(50% - math.div($div-width, 2));
+  overflow: hidden;
+  cursor: pointer;
+  &.left {
+    border-radius: 0px 8px 8px 0px;
+    left: 0px;
+  }
+
+  &.right {
+    border-radius: 8px 0px 0px 8px;
+    right: 0px;
+  }
+
+  > div {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--soe-background-color);
+    mat-icon {
+      color: var(--soe-primary-color);
+    }
+  }
+
+  &.disabled {
+    > div {
+      mat-icon {
+        opacity: 0.3;
+      }
+    }
+    pointer-events: none;
+  }
+}

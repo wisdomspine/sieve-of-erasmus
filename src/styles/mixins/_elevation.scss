@@ -1,0 +1,17 @@
+/**
+Custom elevation style
+*/
+
+@use "@angular/material" as mat;
+
+@mixin elevation($shadow-color) {
+  @if $shadow-color == null {
+    $shadow-color: #000000;
+  }
+  @debug $shadow-color;
+  @for $i from 1 through 24 {
+    .soe-elevation-z#{$i} {
+      @include mat.elevation($i, $shadow-color, 0.28);
+    }
+  }
+}

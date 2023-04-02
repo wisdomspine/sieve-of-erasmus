@@ -1,0 +1,19 @@
+@use "sass:color";
+
+$constants: (
+  primary-color: #161719,
+  secondary-color: #ffffff,
+  warn-color: #ffffff,
+  background-color: #ffffff,
+  disabled-button-background-color: #eef1f5,
+  disabled-button-text-color: #161719,
+  headline-text-color: #161719,
+  body-text-color: #4a4e56,
+  placeholder-text-color: #4a4e56,
+  input-text-color: #161719,
+  warning-text-color: color.adjust(#ff060a, $alpha: 0.64),
+  stroke-color: rgba(74, 78, 86, 0.16),
+  shadow-color: rgb(169, 175, 185),
+  // layouts
+  padding-24: 24px,
+);

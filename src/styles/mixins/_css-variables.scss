@@ -1,0 +1,7 @@
+@mixin css-variables($map) {
+  :root {
+    @each $key, $value in $map {
+      --soe-#{$key}: #{$value};
+    }
+  }
+}
