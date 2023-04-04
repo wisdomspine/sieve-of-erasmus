@@ -3,4 +3,8 @@
   grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
   column-gap: 16px;
   row-gap: 16px;
+  justify-content: center;
+  justify-items: stretch;
+  height: 100%;
+  overflow-x: hidden;
 }

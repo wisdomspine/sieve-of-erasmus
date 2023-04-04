@@ -1,0 +1,9 @@
+@mixin dialog() {
+  .cdk-overlay-pane {
+    &.soe-dialog-border-radius-8 {
+      .mat-mdc-dialog-surface.mdc-dialog__surface {
+        border-radius: 8px;
+      }
+    }
+  }
+}

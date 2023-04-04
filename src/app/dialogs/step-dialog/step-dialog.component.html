@@ -1,0 +1,39 @@
+<!-- close button -->
+<button
+  mat-icon-button
+  matDialogClose
+  class="close-button soe-elevation-z8"
+  color="primary"
+>
+  <div class="content">
+    <mat-icon svgIcon="xmark"></mat-icon>
+  </div>
+</button>
+<mat-toolbar color="accent" matDialogTitle>
+  <!-- navigation -->
+  <div class="navigation">
+    <button mat-button>
+      <div class="content">
+        <mat-icon svgIcon="chevron-left"></mat-icon>
+        <span> Previous Prime </span>
+      </div>
+    </button>
+    <div class="current-prime mat-body">24</div>
+    <button mat-button color="primary">
+      <div class="content">
+        <span> Next Prime </span>
+        <mat-icon svgIcon="chevron-right" color="primary"></mat-icon>
+      </div>
+    </button>
+  </div>
+
+  <h1>1238 Multiples eliminated</h1>
+</mat-toolbar>
+<div matDialogContent class="body">
+  <!-- navigation arrows -->
+  <soe-page-arrow position="left"></soe-page-arrow>
+  <soe-page-arrow position="right"></soe-page-arrow>
+
+  <!-- grid -->
+  <soe-cell-grid [cells]="cells"></soe-cell-grid>
+</div>

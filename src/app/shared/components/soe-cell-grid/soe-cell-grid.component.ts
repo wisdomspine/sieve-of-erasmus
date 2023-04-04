@@ -3,14 +3,25 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
+  HostBinding,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SoeCellComponent } from '../soe-cell/soe-cell.component';
+import { fromEvent, Subject, takeUntil } from 'rxjs';
+import {
+  animate,
+  animateChild,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 export type GridCell = {
   value: number;
@@ -33,8 +44,57 @@ export type GridCell = {
     </soe-cell>
   `,
   styleUrls: ['./soe-cell-grid.component.scss'],
+  animations: [
+    trigger('animateCells', [
+      transition('* => *', [
+        // animates cells added
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'translateX(100%)' }),
+            stagger(
+              30,
+              animate(
+                '.44s 0s ease-out',
+                style({
+                  opacity: 1,
+                  transform: 'translateX(0%)',
+                })
+              )
+            ),
+          ],
+          {
+            optional: true,
+          }
+        ),
+
+        // animates cells removed
+        query(
+          ':leave',
+          [
+            style({ opacity: 1, transform: 'translateX(0%)' }),
+            stagger(
+              30,
+              animate(
+                '.44s 0s ease-out',
+                style({
+                  opacity: 0,
+                  transform: 'translateX(100%)',
+                })
+              )
+            ),
+          ],
+          {
+            optional: true,
+          }
+        ),
+      ]),
+    ]),
+  ],
 })
-export class SoeCellGridComponent implements AfterViewInit, OnChanges {
+export class SoeCellGridComponent
+  implements AfterViewInit, OnChanges, OnDestroy
+{
   @Input()
   cells: GridCell[] = [];
 
@@ -47,25 +107,38 @@ export class SoeCellGridComponent implements AfterViewInit, OnChanges {
    */
   cellClicked: EventEmitter<number> = new EventEmitter();
 
-  maxItems: number = 0;
-  displayedCells: GridCell[] = [];
-
-  @HostListener('resize')
-  pageSizeChange() {
-    this.calculateItems();
-    this.selectPage();
+  @HostBinding('@animateCells')
+  get animateCells() {
+    return this.displayedCells.length;
   }
 
+  maxItems: number = 0;
+  displayedCells: GridCell[] = [];
+  $destroyed: Subject<void> = new Subject();
+
+  pageSizeChange = fromEvent(window, 'resize')
+    .pipe(takeUntil(this.$destroyed))
+    .subscribe(() => {
+      this.calculateItems();
+      this.selectPage();
+    });
+
   calculateItems() {
-    const width = Math.floor(
-      (this.elementRef.nativeElement as HTMLElement).offsetWidth / 224
+    const columns = Math.max(
+      1,
+      Math.floor(
+        (this.elementRef.nativeElement as HTMLElement).offsetWidth / 224
+      )
     );
 
-    const height = Math.floor(
-      (this.elementRef.nativeElement as HTMLElement).offsetHeight / 63
+    const rows = Math.max(
+      1,
+      Math.floor(
+        (this.elementRef.nativeElement as HTMLElement).offsetHeight / 63
+      )
     );
 
-    this.maxItems = width * height;
+    this.maxItems = columns * rows;
   }
 
   get hasNextPage() {
@@ -96,6 +169,10 @@ export class SoeCellGridComponent implements AfterViewInit, OnChanges {
   }
 
   constructor(public readonly elementRef: ElementRef) {}
+  ngOnDestroy(): void {
+    this.$destroyed.next();
+    this.$destroyed.complete();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     setTimeout(() => {
       if (

@@ -17,6 +17,7 @@ import {
 import { InputPageComponent, PrimesComponent } from '@pages';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoreModule } from '@core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, InputPageComponent, PrimesComponent],
@@ -34,6 +35,7 @@ import { CoreModule } from '@core';
     SoePageArrowComponent,
     SoeCellComponent,
     SoeCellGridComponent,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

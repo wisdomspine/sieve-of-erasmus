@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: stretch;
-  min-height: 100vh;
+  height: 100vh;
 }
 mat-toolbar {
   height: unset;
@@ -63,6 +63,8 @@ mat-toolbar {
   flex-flow: column nowrap;
   align-items: stretch;
 
+  // subtract the height of the toolbar and footer + padding
+  height: calc(100vh - 122px);
   padding: var(--soe-padding-24, 64px);
   soe-cell-grid {
     flex: 1 1 auto;
