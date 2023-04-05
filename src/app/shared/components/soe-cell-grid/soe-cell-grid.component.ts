@@ -9,13 +9,13 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  TrackByFunction,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SoeCellComponent } from '../soe-cell/soe-cell.component';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import {
   animate,
-  animateChild,
   query,
   stagger,
   style,
@@ -35,11 +35,13 @@ export type GridCell = {
   imports: [CommonModule, SoeCellComponent],
   template: `
     <soe-cell
-      *ngFor="let cell of displayedCells; let i = index"
+      *ngFor="let cell of displayedCells; let i = index; trackBy: trackFn"
       [value]="cell.value"
       [eliminated]="cell.eliminated ?? false"
       [active]="cell.active ?? false"
-      (click)="!cell.eliminated && cellClicked.emit(i)"
+      (click)="
+        !cell.eliminated && cellClicked.emit({ index: i, value: cell.value })
+      "
     >
     </soe-cell>
   `,
@@ -55,31 +57,10 @@ export type GridCell = {
             stagger(
               30,
               animate(
-                '.44s 0s ease-out',
+                '.24s 0s ease-out',
                 style({
                   opacity: 1,
                   transform: 'translateX(0%)',
-                })
-              )
-            ),
-          ],
-          {
-            optional: true,
-          }
-        ),
-
-        // animates cells removed
-        query(
-          ':leave',
-          [
-            style({ opacity: 1, transform: 'translateX(0%)' }),
-            stagger(
-              30,
-              animate(
-                '.44s 0s ease-out',
-                style({
-                  opacity: 0,
-                  transform: 'translateX(100%)',
                 })
               )
             ),
@@ -99,23 +80,32 @@ export class SoeCellGridComponent
   cells: GridCell[] = [];
 
   @Input()
-  index: number = 0;
+  set index(index: number) {
+    this._index = index;
+  }
+
+  get index() {
+    return Math.min(this._index, Math.ceil(this.cells.length / this.maxItems));
+  }
 
   @Output()
   /**
    * emits the index of the cell clicked
    */
-  cellClicked: EventEmitter<number> = new EventEmitter();
+  cellClicked: EventEmitter<{ index: number; value: number }> =
+    new EventEmitter();
 
   @HostBinding('@animateCells')
   get animateCells() {
-    return this.displayedCells.length;
+    return this.displayedCells.length * (this.index + 1);
   }
 
+  _index: number = 0;
   maxItems: number = 0;
   displayedCells: GridCell[] = [];
   $destroyed: Subject<void> = new Subject();
 
+  trackFn: TrackByFunction<GridCell> = (index, cell) => cell.value;
   pageSizeChange = fromEvent(window, 'resize')
     .pipe(takeUntil(this.$destroyed))
     .subscribe(() => {

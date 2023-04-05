@@ -18,6 +18,9 @@ import { InputPageComponent, PrimesComponent } from '@pages';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoreModule } from '@core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent, InputPageComponent, PrimesComponent],
@@ -25,6 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
     CoreModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -36,6 +41,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SoeCellComponent,
     SoeCellGridComponent,
     MatDialogModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

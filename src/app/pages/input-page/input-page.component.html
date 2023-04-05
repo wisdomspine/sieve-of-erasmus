@@ -1,5 +1,5 @@
 <div>
-  <h1>Sieve of Erasmus</h1>
+  <h1>Sieve of Eratosthenes</h1>
   <div class="spacer-1"></div>
   <form [formGroup]="form">
     <mat-form-field appearance="outline">
@@ -30,6 +30,7 @@
       mat-flat-button
       color="primary"
       [disabled]="form.invalid"
+      (click)="submit()"
     >
       <span> Calculate </span>
     </button>

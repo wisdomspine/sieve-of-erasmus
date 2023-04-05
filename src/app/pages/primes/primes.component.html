@@ -47,21 +47,35 @@
       mat-flat-button
       color="primary"
       [disabled]="form.invalid"
+      (click)="calculate()"
     >
       <span> Calculate </span>
     </button>
   </form>
-  <h1>2890 Prime(s)</h1>
+  <h1>{{ totalPrimes$ | async | number }} Prime(s)</h1>
 </mat-toolbar>
 
 <!-- body -->
 <div class="body">
   <!-- arrows -->
-  <soe-page-arrow position="left" [disabled]="true"></soe-page-arrow>
-  <soe-page-arrow position="right"></soe-page-arrow>
+  <soe-page-arrow
+    position="left"
+    [disabled]="!cellGrid.hasPrevPage"
+    (click)="cellGrid.prev()"
+  ></soe-page-arrow>
+  <soe-page-arrow
+    position="right"
+    [disabled]="!cellGrid.hasNextPage"
+    (click)="cellGrid.next()"
+  ></soe-page-arrow>
 
   <!-- cells -->
-  <soe-cell-grid [cells]="cells"> </soe-cell-grid>
+  <soe-cell-grid
+    [cells]="(cells$ | async) || []"
+    #cellGrid
+    (cellClicked)="preview($event.value)"
+  >
+  </soe-cell-grid>
 </div>
 <!-- soe footer -->
 <soe-footer></soe-footer>
