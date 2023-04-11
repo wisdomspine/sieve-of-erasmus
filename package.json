@@ -1,12 +1,19 @@
 {
   "name": "sieve-of-erasmus",
   "version": "0.0.0",
+  "main": "main.ts",
+  "author": {
+    "name": "Priest Sabo Ombugadu",
+    "email": "sabopriest@gmail.com"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-win": "ng build --base-href ./ && electron-builder -w",
+    "build-mac": "ng build --base-href ./ && electron-builder -m"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +39,7 @@
     "@angular/cli": "~15.2.1",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "electron": "^24.0.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -39,5 +47,29 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.9.4"
+  },
+  "build": {
+    "appId": "dev.sabopriest.sieveoferatosthenes",
+    "productName": "Sieve of Eratosthenes",
+    "copyright": "Copyright © year ${author}",
+    "remoteBuild": true,
+    "files": [
+      "dist/sieve-of-erasmus/**/*",
+      "package.json",
+      "main.ts"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg"
+      ],
+      "icon": "dist/sieve-of-erasmus/assets/images/logo.icns"
+    },
+    "win": {
+      "target": [
+        "msi"
+      ],
+      "icon": "dist/sieve-of-erasmus/assets/images/logo.ico"
+    }
   }
 }
